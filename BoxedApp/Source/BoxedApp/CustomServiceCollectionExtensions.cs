@@ -5,6 +5,9 @@ using BoxedApp.Options;
 using Boxed.AspNetCore;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Options;
+using BoxedApp.Services;
+using Microsoft.EntityFrameworkCore;
+using BoxedApp.Models;
 
 /// <summary>
 /// <see cref="IServiceCollection"/> extension methods which extend ASP.NET Core services.
@@ -34,7 +37,11 @@ internal static class CustomServiceCollectionExtensions
                     options.KnownProxies.Clear();
                 })
             .ConfigureAndValidateSingleton<HostOptions>(configuration.GetRequiredSection(nameof(ApplicationOptions.Host)))
-            .ConfigureAndValidateSingleton<KestrelServerOptions>(configuration.GetRequiredSection(nameof(ApplicationOptions.Kestrel)));
+            .ConfigureAndValidateSingleton<KestrelServerOptions>(configuration.GetRequiredSection(nameof(ApplicationOptions.Kestrel)))
+            // connect db
+            .AddDbContext<SqlDBContext>(options => options.UseSqlServer(configuration.GetConnectionString("DbTestConnection")))
+        .Configure<MongoDBSetting>(configuration.GetSection("MongoDB"))
+        .AddSingleton<MongoDBService>();
 
     public static IServiceCollection AddCustomConfigureOptions(this IServiceCollection services) =>
         services

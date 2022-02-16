@@ -8,6 +8,9 @@ using System.Text.Json.Serialization;
 [JsonSerializable(typeof(Car[]))]
 [JsonSerializable(typeof(Connection<Car>[]))]
 [JsonSerializable(typeof(SaveCar[]))]
+[JsonSerializable(typeof(Book[]))]
+[JsonSerializable(typeof(Connection<Book>[]))]
+[JsonSerializable(typeof(SaveBook[]))]
 internal partial class CustomJsonSerializerContext : JsonSerializerContext
 {
 }
