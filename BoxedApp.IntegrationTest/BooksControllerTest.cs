@@ -68,9 +68,9 @@ namespace BoxedApp.IntegrationTest
         }
 
         [Theory]
-        [InlineData("/book/sql-booklist", null)]
-        [InlineData("/book/sql-booklist", 2)]
-        public async Task Get_BookSQLListBuyCount(string path, int? count)
+        [InlineData("/book/sql-booklist")]
+        [InlineData("/book/sql-booklist?count=2")]
+        public async Task Get_BookSQLListBuyCount(string path)
         {
             //var list = new List<BookDB>()
             //{
@@ -79,8 +79,6 @@ namespace BoxedApp.IntegrationTest
             //    new BookDB(){Id = 3,NameBook = "book3"},
             //};
             //this.BookRepositoryMock.Setup(x => x.GetBookSqlAsync(It.IsAny<CancellationToken>()));
-            if (count != null)
-                path = path + "?count=" + count;
 
             var response = await this.client.GetAsync(new Uri(path, UriKind.Relative)).ConfigureAwait(false);
 
@@ -89,10 +87,7 @@ namespace BoxedApp.IntegrationTest
             
             var list = await response.Content.ReadAsAsync<List<Book>>(this.formatters).ConfigureAwait(false);
 
-            if (count != null)
-            {
-                Assert.Equal(Convert.ToInt32(count), list.Count);
-            }
+            Assert.Equal(2, list.Count);
         }
     }
 }
