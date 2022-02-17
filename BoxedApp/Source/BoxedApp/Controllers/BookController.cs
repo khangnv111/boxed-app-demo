@@ -63,8 +63,8 @@ public class BookController : ControllerBase
     //[HttpHead("{bookId}", Name = BookControllerRoute.HeadBook)]
     //[SwaggerResponse(
     //    StatusCodes.Status200OK,
-    //    "The car with the specified unique identifier.",
-    //    typeof(Book),
+    //    "List book",
+    //    typeof(List<Book>),
     //    ContentType.RestfulJson,
     //    ContentType.Json)]
     //[SwaggerResponse(
