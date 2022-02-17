@@ -82,7 +82,8 @@ public class BookController : ControllerBase
     //    ContentType.ProblemJson)]
     public Task<IActionResult> GetSQLAsync(
         [FromServices] GetBookCommand command,
-        CancellationToken cancellationToken) => command.ExecuteSqlAsync(cancellationToken);
+        int? count,
+        CancellationToken cancellationToken) => command.ExecuteSqlCountAsync(count, cancellationToken);
 
     [HttpGet("bookstoreList")]
     //[HttpHead("", Name = CarsControllerRoute.HeadCarPage)]

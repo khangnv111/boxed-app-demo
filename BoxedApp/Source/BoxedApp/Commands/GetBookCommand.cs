@@ -68,4 +68,30 @@ public class GetBookCommand
         //httpContext.Response.Headers.LastModified = book.Modified.ToString("R", CultureInfo.InvariantCulture);
         return new OkObjectResult(list);
     }
+
+    public async Task<IActionResult> ExecuteSqlCountAsync(int? count, CancellationToken cancellationToken)
+    {
+        //await db.Connection.OpenAsync();
+        var list = await this.bookRepository.GetBookSqlAsync(cancellationToken).ConfigureAwait(false);
+        if (list is null)
+        {
+            return new NotFoundResult();
+        }
+        if (count is null)
+        {
+            return new OkObjectResult(list);
+        } 
+        //var httpContext = this.actionContextAccessor.ActionContext!.HttpContext;
+        //var ifModifiedSince = httpContext.Request.Headers.IfModifiedSince;
+        //if (ifModifiedSince.Any() &&
+        //    DateTimeOffset.TryParse(ifModifiedSince, out var ifModifiedSinceDateTime) &&
+        //    (ifModifiedSinceDateTime >= book.Modified))
+        //{
+        //    return new StatusCodeResult(StatusCodes.Status304NotModified);
+        //}
+
+        //var bookViewModel = this.bookMapper.Map(book);
+        //httpContext.Response.Headers.LastModified = book.Modified.ToString("R", CultureInfo.InvariantCulture);
+        return new OkObjectResult(list.Take(Convert.ToInt32(count)));
+    }
 }

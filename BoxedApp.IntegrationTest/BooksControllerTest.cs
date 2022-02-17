@@ -66,5 +66,33 @@ namespace BoxedApp.IntegrationTest
             Assert.Equal(ContentType.RestfulJson, response.Content.Headers.ContentType?.MediaType);
             //var list = await response.Content.ReadAsAsync<List<BookStore>>(this.formatters).ConfigureAwait(false);
         }
+
+        [Theory]
+        [InlineData("/book/sql-booklist", null)]
+        [InlineData("/book/sql-booklist", 2)]
+        public async Task Get_BookSQLListBuyCount(string path, int? count)
+        {
+            //var list = new List<BookDB>()
+            //{
+            //    new BookDB(){Id = 1, NameBook="book1"},
+            //    new BookDB(){Id = 2, NameBook = "book2"},
+            //    new BookDB(){Id = 3,NameBook = "book3"},
+            //};
+            //this.BookRepositoryMock.Setup(x => x.GetBookSqlAsync(It.IsAny<CancellationToken>()));
+            if (count != null)
+                path = path + "?count=" + count;
+
+            var response = await this.client.GetAsync(new Uri(path, UriKind.Relative)).ConfigureAwait(false);
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(ContentType.RestfulJson, response.Content.Headers.ContentType?.MediaType);
+            
+            var list = await response.Content.ReadAsAsync<List<Book>>(this.formatters).ConfigureAwait(false);
+
+            if (count != null)
+            {
+                Assert.Equal(Convert.ToInt32(count), list.Count);
+            }
+        }
     }
 }
