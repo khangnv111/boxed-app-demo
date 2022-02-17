@@ -41,7 +41,10 @@ internal static class CustomServiceCollectionExtensions
             // connect db
             .AddDbContext<SqlDBContext>(options => options.UseSqlServer(configuration.GetConnectionString("DbTestConnection")))
         .Configure<MongoDBSetting>(configuration.GetSection("MongoDB"))
-        .AddSingleton<MongoDBService>();
+        .AddSingleton<MongoDBService>()
+        // mysql
+    /*.Add(new ServiceDescriptor(typeof(MySqlContext), new MySqlContext(configuration.GetConnectionString("MySqlConnection"))))*/
+        .AddTransient<MySqlContext>(_ => new MySqlContext(configuration.GetConnectionString("MySqlConnection")));
 
     public static IServiceCollection AddCustomConfigureOptions(this IServiceCollection services) =>
         services

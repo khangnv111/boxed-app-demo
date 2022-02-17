@@ -49,7 +49,7 @@ internal static class ProjectServiceCollectionExtensions
             .AddSingleton<ICarRepository, CarRepository>()
             .AddSingleton<IBookRepository, BookRepository>()
             //
-            /*.AddSingleton<ISqlRepository, SqlRepository>()*/;
+            /*.AddScoped<ISqlRepository, SqlRepository>()*/;
 
     public static IServiceCollection AddProjectServices(this IServiceCollection services) =>
         services

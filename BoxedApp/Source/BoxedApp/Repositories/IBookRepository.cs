@@ -1,6 +1,7 @@
 namespace BoxedApp.Repositories;
 
 using System.Collections.Generic;
+using System.Data.Common;
 using BoxedApp.Models;
 
 public interface IBookRepository

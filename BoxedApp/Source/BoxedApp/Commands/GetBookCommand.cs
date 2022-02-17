@@ -3,6 +3,7 @@ namespace BoxedApp.Commands;
 using System.Globalization;
 using Boxed.Mapping;
 using BoxedApp.Repositories;
+using BoxedApp.Services;
 using BoxedApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -11,7 +12,11 @@ public class GetBookCommand
 {
     private readonly IActionContextAccessor actionContextAccessor;
     private readonly IBookRepository bookRepository;
+    //private readonly ISqlRepository sqlRepository;
     private readonly IMapper<Models.Book, Book> bookMapper;
+
+    //private readonly MySqlContext db;
+
     public GetBookCommand(IBookRepository bookRepository, IActionContextAccessor actionContextAccessor, IMapper<Models.Book, Book> bookMapper)
     {
         this.bookRepository = bookRepository;
@@ -43,6 +48,7 @@ public class GetBookCommand
 
     public async Task<IActionResult> ExecuteSqlAsync(CancellationToken cancellationToken)
     {
+        //await db.Connection.OpenAsync();
         var list = await this.bookRepository.GetBookSqlAsync(cancellationToken).ConfigureAwait(false);
         if (list is null)
         {
